@@ -26,11 +26,16 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
         height: 100vh;
         overflow: hidden;
         position: relative;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
       }
       canvas {
         width: 100vw !important;
         height: 100vh !important;
         display: block;
+        touch-action: none;
       }
       .status {
         position: absolute;
@@ -43,6 +48,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
         white-space: pre;
         max-height: 90vh;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
       .copy-button {
         display: block;
@@ -54,6 +60,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
         border-radius: 4px;
         cursor: pointer;
         font-family: monospace;
+        -webkit-tap-highlight-color: transparent;
       }
       .copy-button:active {
         background: rgba(255, 255, 255, 0.3);
@@ -119,8 +126,11 @@ export class AppComponent implements AfterViewInit {
       canvas: this.rendererCanvas.nativeElement,
       antialias: true,
     });
+
+    // Handle iOS device pixel ratio
+    const pixelRatio = Math.min(window.devicePixelRatio, 2);
+    this.renderer.setPixelRatio(pixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setPixelRatio(window.devicePixelRatio);
 
     // Controls setup
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
